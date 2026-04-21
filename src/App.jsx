@@ -1,13 +1,23 @@
-import './App.css'
+// src/App.jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import Layout from './components/Layout';
+import InvoiceList from './pages/InvoiceList';
+import InvoiceDetail from './pages/InvoiceDetail';
 
 function App() {
-
   return (
-    <>
-      <h1>Invoice App - Under Construction 🚧</h1>
-      <p>Checkpoint 0 Complete!</p>
-    </>
-  )
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<InvoiceList />} />
+            <Route path="invoice/:id" element={<InvoiceDetail />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
