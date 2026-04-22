@@ -1,7 +1,7 @@
 // src/pages/InvoiceDetail.jsx
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getInvoiceById, updateInvoice, deleteInvoice } from '../utils/storage';
+import { getInvoiceById, updateInvoice, deleteInvoice } from '../utils/storage.js';
 import DeleteModal from '../components/DeleteModal';
 import Button from '../components/ui/Button';
 

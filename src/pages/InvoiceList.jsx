@@ -1,7 +1,7 @@
 // src/pages/InvoiceList.jsx
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getInvoices } from '../utils/storage';
+import { getInvoices } from '../utils/storage.js';
 import StatusFilter from '../components/StatusFilter';
 import Button from '../components/ui/Button';
 

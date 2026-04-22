@@ -1,7 +1,7 @@
 // src/pages/InvoiceEdit.jsx
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getInvoiceById, updateInvoice } from '../utils/storage';
+import { getInvoiceById, updateInvoice } from '../utils/storage.js';
 
 const InvoiceEdit = () => {
   const { id } = useParams();
