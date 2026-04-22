@@ -1,45 +1,48 @@
 // src/components/Layout.jsx
 import { Outlet, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import Button from './ui/Button';
 
 const Layout = () => {
   const { isDarkMode, toggleTheme } = useTheme();
 
   return (
     <div style={{
-      backgroundColor: isDarkMode ? '#141625' : '#F8F8FB',
-      color: isDarkMode ? '#FFFFFF' : '#0C0E16',
+      backgroundColor: 'var(--bg)',
+      color: 'var(--text-h)',
       minHeight: '100vh',
-      padding: '20px'
+      display: 'flex',
+      flexDirection: 'column'
     }}>
       <header style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        backgroundColor: 'var(--bg)',
+        borderBottom: '1px solid var(--border)',
+        boxShadow: 'var(--shadow)',
+        padding: '16px 24px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '30px'
+        marginBottom: '40px'
       }}>
-        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <h1>📋 Invoice App</h1>
-        </Link>
-        
-        <button 
-          onClick={toggleTheme}
-          style={{
-            padding: '10px 20px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            backgroundColor: isDarkMode ? '#252945' : '#FFFFFF',
-            color: isDarkMode ? '#FFFFFF' : '#7E88C3',
-            border: 'none',
-            borderRadius: '20px',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-          }}
-        >
-          {isDarkMode ? '☀️ Light' : '🌙 Dark'}
-        </button>
+        <div style={{ maxWidth: '1126px', margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 'bold' }}>📋 Invoice App</h1>
+          </Link>
+          
+          <Button 
+            variant="ghost" 
+            onClick={toggleTheme}
+            style={{ borderRadius: '50px', padding: '8px 16px' }}
+          >
+            {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+          </Button>
+        </div>
       </header>
 
-      <main>
+      <main style={{ flex: 1, padding: '0 24px 40px', maxWidth: '1126px', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
         <Outlet />
       </main>
     </div>

@@ -38,31 +38,35 @@ const StatusFilter = ({ currentFilter, onFilterChange }) => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         style={{
-          padding: '10px 20px',
-          backgroundColor: '#FFFFFF',
-          border: '1px solid #DFE3FA',
-          borderRadius: '20px',
+          padding: '12px 24px',
+          backgroundColor: 'var(--bg)',
+          border: '1px solid var(--border)',
+          borderRadius: '50px',
           cursor: 'pointer',
           fontSize: '14px',
           fontWeight: 'bold',
-          color: '#0C0E16',
+          color: 'var(--text-h)',
           display: 'flex',
           alignItems: 'center',
-          gap: '10px'
+          gap: '12px',
+          transition: 'all 0.2s',
+          boxShadow: 'var(--shadow)'
         }}
+        onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
+        onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
       >
-        <span>Filter by status</span>
-        <span style={{ color: '#7C5DFA' }}>
+        <span>Filter <span style={{ display: window.innerWidth >= 768 ? 'inline' : 'none' }}>by status</span></span>
+        <span style={{ color: 'var(--accent)', fontSize: '10px' }}>
           {isOpen ? '▲' : '▼'}
         </span>
         {currentFilter !== 'all' && (
           <span style={{
-            backgroundColor: '#7C5DFA',
+            backgroundColor: 'var(--accent)',
             color: 'white',
             padding: '2px 8px',
             borderRadius: '10px',
             fontSize: '12px',
-            marginLeft: '5px'
+            marginLeft: '4px'
           }}>
             {getCurrentLabel()}
           </span>
@@ -72,44 +76,59 @@ const StatusFilter = ({ currentFilter, onFilterChange }) => {
       {isOpen && (
         <div style={{
           position: 'absolute',
-          top: '45px',
-          left: '0',
-          backgroundColor: '#FFFFFF',
-          border: '1px solid #DFE3FA',
-          borderRadius: '8px',
-          boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+          top: '100%',
+          marginTop: '8px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: 'var(--bg)',
+          border: '1px solid var(--border)',
+          borderRadius: '12px',
+          boxShadow: 'var(--shadow)',
           minWidth: '180px',
-          zIndex: 10
+          zIndex: 10,
+          padding: '8px 0',
+          overflow: 'hidden'
         }}>
           {filterOptions.map((option) => (
             <div
               key={option.value}
               onClick={() => handleSelect(option.value)}
               style={{
-                padding: '12px 20px',
+                padding: '12px 24px',
                 cursor: 'pointer',
                 transition: 'background-color 0.2s',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '10px',
-                backgroundColor: currentFilter === option.value ? '#F9FAFE' : 'transparent'
+                gap: '12px',
+                backgroundColor: currentFilter === option.value ? 'var(--social-bg)' : 'transparent'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F9FAFE'}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--social-bg)'}
               onMouseLeave={(e) => {
                 if (currentFilter !== option.value) {
                   e.currentTarget.style.backgroundColor = 'transparent';
                 }
               }}
             >
-              <input
-                type="checkbox"
-                checked={currentFilter === option.value}
-                onChange={() => {}}
-                style={{ cursor: 'pointer' }}
-              />
+              <div style={{
+                width: '16px',
+                height: '16px',
+                borderRadius: '4px',
+                border: `1px solid ${currentFilter === option.value ? 'var(--accent)' : 'var(--border)'}`,
+                backgroundColor: currentFilter === option.value ? 'var(--accent)' : 'transparent',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s'
+              }}>
+                {currentFilter === option.value && (
+                  <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.5 4.5L3.5 6.5L8.5 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+              </div>
               <span style={{ 
-                fontWeight: currentFilter === option.value ? 'bold' : 'normal',
-                color: currentFilter === option.value ? '#7C5DFA' : '#0C0E16'
+                fontWeight: currentFilter === option.value ? 'bold' : '500',
+                color: currentFilter === option.value ? 'var(--text-h)' : 'var(--text)'
               }}>
                 {option.label}
               </span>

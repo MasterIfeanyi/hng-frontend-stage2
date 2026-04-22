@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getInvoices } from '../utils/storage';
 import StatusFilter from '../components/StatusFilter';
+import Button from '../components/ui/Button';
 
 const InvoiceList = () => {
   const [allInvoices] = useState(() => getInvoices() || []);
@@ -19,7 +20,7 @@ const InvoiceList = () => {
   // Format date nicely
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
+    return date.toLocaleDateString('en-US', {
       year: 'numeric', 
       month: 'short', 
       day: 'numeric' 
@@ -30,51 +31,51 @@ const InvoiceList = () => {
   const getStatusColor = (status) => {
     switch(status) {
       case 'paid':
-        return { bg: '#33D69F', text: 'white', label: 'Paid' };
+        return { bg: 'rgba(51, 214, 159, 0.1)', text: '#33D69F', label: 'Paid' };
       case 'pending':
-        return { bg: '#FF8F00', text: 'white', label: 'Pending' };
+        return { bg: 'rgba(255, 143, 0, 0.1)', text: '#FF8F00', label: 'Pending' };
       case 'draft':
-        return { bg: '#373B53', text: '#DFE3FA', label: 'Draft' };
+        return { bg: 'var(--social-bg)', text: 'var(--text)', label: 'Draft' };
       default:
-        return { bg: '#DFE3FA', text: '#373B53', label: status };
+        return { bg: 'var(--social-bg)', text: 'var(--text)', label: status };
     }
   };
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <div>
-          <h1 style={{ margin: '0 0 5px 0' }}>📋 Invoices</h1>
-          <p style={{ color: '#888EB0', margin: 0 }}>
+          <h1 style={{ margin: '0 0 8px 0', fontSize: '32px' }}>Invoices</h1>
+          <p style={{ color: 'var(--text)', margin: 0, fontSize: '14px' }}>
             {filteredInvoices.length === 0 
               ? 'No invoices' 
-              : `${filteredInvoices.length} invoice${filteredInvoices.length !== 1 ? 's' : ''}`}
+              : `There are ${filteredInvoices.length} total invoice${filteredInvoices.length !== 1 ? 's' : ''}`}
           </p>
         </div>
         
-        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-          {/* 👇 NEW: Filter Component */}
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           <StatusFilter 
             currentFilter={filterStatus} 
             onFilterChange={handleFilterChange} 
           />
           
-          <Link to="/invoice/new">
-            <button style={{
-              padding: '12px 24px',
-              backgroundColor: '#7C5DFA',
-              color: 'white',
-              border: 'none',
-              borderRadius: '30px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px'
-            }}>
-              <span style={{ fontSize: '20px' }}>➕</span> New Invoice
-            </button>
+          <Link to="/invoice/new" style={{ textDecoration: 'none' }}>
+            <Button variant="primary" style={{ borderRadius: '50px', padding: '10px 18px 10px 10px' }}>
+              <span style={{ 
+                backgroundColor: '#fff', 
+                color: 'var(--accent)', 
+                borderRadius: '50%', 
+                width: '32px', 
+                height: '32px', 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                marginRight: '16px',
+                fontSize: '20px',
+                fontWeight: 'bold'
+              }}>+</span> 
+              New Invoice
+            </Button>
           </Link>
         </div>
       </div>
@@ -82,19 +83,21 @@ const InvoiceList = () => {
       {filteredInvoices.length === 0 ? (
         <div style={{
           textAlign: 'center',
-          padding: '60px 20px',
-          backgroundColor: '#FFFFFF',
-          borderRadius: '8px'
+          padding: '80px 20px',
+          backgroundColor: 'var(--bg)',
+          borderRadius: '12px',
+          border: '1px solid var(--border)',
+          boxShadow: 'var(--shadow)'
         }}>
           {allInvoices.length === 0 ? (
             <>
-              <p style={{ color: '#888EB0', fontSize: '18px' }}>📭 No invoices yet</p>
-              <p style={{ color: '#7E88C3' }}>Click "New Invoice" to create your first one!</p>
+              <h2 style={{ fontSize: '24px', marginBottom: '16px' }}>There is nothing here</h2>
+              <p style={{ color: 'var(--text)' }}>Create an invoice by clicking the <br/><b>New Invoice</b> button and get started</p>
             </>
           ) : (
             <>
-              <p style={{ color: '#888EB0', fontSize: '18px' }}>🔍 No matching invoices</p>
-              <p style={{ color: '#7E88C3' }}>
+              <h2 style={{ fontSize: '24px', marginBottom: '16px' }}>No matching invoices</h2>
+              <p style={{ color: 'var(--text)' }}>
                 Try changing your filter from "{filterStatus}"
               </p>
             </>
@@ -102,9 +105,9 @@ const InvoiceList = () => {
         </div>
       ) : (
         <div style={{
-          backgroundColor: '#FFFFFF',
-          borderRadius: '8px',
-          overflow: 'hidden'
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px'
         }}>
           {filteredInvoices.map((invoice) => {
             const statusStyle = getStatusColor(invoice.status);
@@ -118,46 +121,65 @@ const InvoiceList = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '16px 24px',
-                  borderBottom: '1px solid #DFE3FA',
+                  padding: '24px',
+                  backgroundColor: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '12px',
+                  boxShadow: 'var(--shadow)',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s'
+                  transition: 'all 0.2s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F9FAFE'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FFFFFF'}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.borderColor = 'var(--accent-border)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'none';
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                }}
                 >
-                  <div style={{ fontWeight: 'bold', minWidth: '100px' }}>
-                    #{invoice.id.slice(-6)}
+                  <div style={{ fontWeight: 'bold', minWidth: '100px', color: 'var(--text-h)' }}>
+                    <span style={{ color: 'var(--text)' }}>#</span>{invoice.id.slice(-6)}
                   </div>
                   
-                  <div style={{ color: '#7E88C3', minWidth: '120px' }}>
+                  <div style={{ color: 'var(--text)', minWidth: '120px' }}>
                     Due {formatDate(invoice.invoiceDate)}
                   </div>
                   
-                  <div style={{ color: '#858BB2', minWidth: '150px' }}>
+                  <div style={{ color: 'var(--text)', minWidth: '150px' }}>
                     {invoice.clientName}
                   </div>
                   
-                  <div style={{ fontWeight: 'bold', fontSize: '18px', minWidth: '100px', textAlign: 'right' }}>
+                  <div style={{ fontWeight: 'bold', fontSize: '20px', minWidth: '100px', textAlign: 'right', color: 'var(--text-h)' }}>
                     ${invoice.total.toFixed(2)}
                   </div>
                   
                   <div style={{
                     backgroundColor: statusStyle.bg,
                     color: statusStyle.text,
-                    padding: '8px 20px',
+                    padding: '12px 0',
                     borderRadius: '6px',
                     fontWeight: 'bold',
                     fontSize: '12px',
                     textTransform: 'uppercase',
-                    minWidth: '80px',
+                    minWidth: '104px',
                     textAlign: 'center',
-                    marginLeft: '20px'
+                    marginLeft: '24px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
                   }}>
+                    <span style={{ 
+                      width: '8px', 
+                      height: '8px', 
+                      borderRadius: '50%', 
+                      backgroundColor: statusStyle.text 
+                    }}></span>
                     {statusStyle.label}
                   </div>
                   
-                  <div style={{ marginLeft: '20px', color: '#7C5DFA' }}>
+                  <div style={{ marginLeft: '24px', color: 'var(--accent)', fontWeight: 'bold' }}>
                     ›
                   </div>
                 </div>

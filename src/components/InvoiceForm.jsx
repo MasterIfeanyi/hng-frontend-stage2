@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addInvoice } from '../utils/storage';
+import Button from './ui/Button';
+import Input from './ui/Input';
+import Textarea from './ui/Textarea';
 
 const InvoiceForm = () => {
     const navigate = useNavigate();
@@ -126,230 +129,244 @@ const InvoiceForm = () => {
     };
 
     return (
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <h2>📝 Create New Invoice</h2>
+        <div style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: '60px' }}>
+            <h2 style={{ fontSize: '32px', marginBottom: '32px', color: 'var(--text-h)' }}>New Invoice</h2>
 
-            {/* Client Information Section */}
-            <fieldset style={styles.fieldset}>
-                <legend>👤 Client Information</legend>
+            <div style={{ 
+                backgroundColor: 'var(--bg)', 
+                borderRadius: '12px', 
+                padding: '32px', 
+                border: '1px solid var(--border)',
+                boxShadow: 'var(--shadow)' 
+            }}>
+                {/* Client Information Section */}
+                <fieldset style={styles.fieldset}>
+                    <legend style={styles.legend}>Bill To</legend>
 
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Client Name *</label>
-                    <input
-                        type="text"
-                        name="clientName"
-                        value={formData.clientName}
-                        onChange={handleChange}
-                        style={{
-                            ...styles.input,
-                            borderColor: errors.clientName && touched.clientName ? '#EC5757' : '#DFE3FA'
-                        }}
-                    />
-                    {errors.clientName && touched.clientName && (
-                        <span style={styles.error}>{errors.clientName}</span>
-                    )}
-                </div>
+                    <div style={styles.row}>
+                        <div style={styles.formGroup}>
+                            <Input
+                                label="Client Name *"
+                                name="clientName"
+                                value={formData.clientName}
+                                onChange={handleChange}
+                                error={touched.clientName && errors.clientName}
+                            />
+                        </div>
 
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Client Email *</label>
-                    <input
-                        type="email"
-                        name="clientEmail"
-                        value={formData.clientEmail}
-                        onChange={handleChange}
-                        style={{
-                            ...styles.input,
-                            borderColor: errors.clientEmail && touched.clientEmail ? '#EC5757' : '#DFE3FA'
-                        }}
-                    />
-                    {errors.clientEmail && touched.clientEmail && (
-                        <span style={styles.error}>{errors.clientEmail}</span>
-                    )}
-                </div>
+                        <div style={styles.formGroup}>
+                            <Input
+                                label="Client Email *"
+                                type="email"
+                                name="clientEmail"
+                                value={formData.clientEmail}
+                                onChange={handleChange}
+                                error={touched.clientEmail && errors.clientEmail}
+                            />
+                        </div>
+                    </div>
 
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Address</label>
-                    <input
-                        type="text"
+                    <Input
+                        label="Street Address"
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
-                        style={styles.input}
                     />
-                </div>
 
-                <div style={styles.row}>
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>City</label>
-                        <input
-                            type="text"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleChange}
-                            style={styles.input}
-                        />
+                    <div style={styles.row}>
+                        <div style={styles.formGroup}>
+                            <Input
+                                label="City"
+                                name="city"
+                                value={formData.city}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div style={styles.formGroup}>
+                            <Input
+                                label="Postal Code"
+                                name="postalCode"
+                                value={formData.postalCode}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div style={styles.formGroup}>
+                            <Input
+                                label="Country"
+                                name="country"
+                                value={formData.country}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                </fieldset>
+
+                {/* Invoice Details */}
+                <fieldset style={styles.fieldset}>
+                    <legend style={styles.legend}>Invoice Details</legend>
+
+                    <div style={styles.row}>
+                        <div style={styles.formGroup}>
+                            <Input
+                                label="Invoice Date"
+                                type="date"
+                                name="invoiceDate"
+                                value={formData.invoiceDate}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div style={styles.formGroup}>
+                            <label style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text)', marginBottom: '8px', display: 'block' }}>Payment Terms</label>
+                            <select
+                                name="paymentTerms"
+                                value={formData.paymentTerms}
+                                onChange={handleChange}
+                                style={{
+                                    width: '100%',
+                                    padding: '12px 16px',
+                                    borderRadius: '8px',
+                                    border: '1px solid var(--border)',
+                                    backgroundColor: 'var(--bg)',
+                                    color: 'var(--text-h)',
+                                    fontSize: '14px',
+                                    outline: 'none',
+                                    fontFamily: 'var(--sans)'
+                                }}
+                            >
+                                <option value="NET_7">Net 7 Days</option>
+                                <option value="NET_15">Net 15 Days</option>
+                                <option value="NET_30">Net 30 Days</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Postal Code</label>
-                        <input
-                            type="text"
-                            name="postalCode"
-                            value={formData.postalCode}
-                            onChange={handleChange}
-                            style={styles.input}
-                        />
-                    </div>
-
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Country</label>
-                        <input
-                            type="text"
-                            name="country"
-                            value={formData.country}
-                            onChange={handleChange}
-                            style={styles.input}
-                        />
-                    </div>
-                </div>
-            </fieldset>
-
-            {/* Invoice Details */}
-            <fieldset style={styles.fieldset}>
-                <legend>📅 Invoice Details</legend>
-
-                <div style={styles.row}>
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Invoice Date</label>
-                        <input
-                            type="date"
-                            name="invoiceDate"
-                            value={formData.invoiceDate}
-                            onChange={handleChange}
-                            style={styles.input}
-                        />
-                    </div>
-
-                    <div style={styles.formGroup}>
-                        <label style={styles.label}>Payment Terms</label>
-                        <select
-                            name="paymentTerms"
-                            value={formData.paymentTerms}
-                            onChange={handleChange}
-                            style={styles.input}
-                        >
-                            <option value="NET_7">Net 7 Days</option>
-                            <option value="NET_15">Net 15 Days</option>
-                            <option value="NET_30">Net 30 Days</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style={styles.formGroup}>
-                    <label style={styles.label}>Project Description</label>
-                    <input
-                        type="text"
+                    <Textarea
+                        label="Project Description"
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
-                        style={styles.input}
                         placeholder="e.g., Website Redesign"
+                        rows={3}
                     />
-                </div>
-            </fieldset>
+                </fieldset>
 
-            {/* Item List */}
-            <fieldset style={styles.fieldset}>
-                <legend>📦 Items *</legend>
+                {/* Item List */}
+                <fieldset style={styles.fieldset}>
+                    <legend style={styles.legend}>Item List</legend>
 
-                {formData.items.map((item, index) => (
-                    <div key={index} style={styles.itemRow}>
-                        <div style={{ flex: 3 }}>
-                            <input
-                                type="text"
-                                placeholder="Item Name"
-                                value={item.name}
-                                onChange={(e) => handleItemChange(index, 'name', e.target.value)}
-                                style={styles.input}
-                            />
+                    {formData.items.map((item, index) => (
+                        <div key={index} style={styles.itemRow}>
+                            <div style={{ flex: 3 }}>
+                                <Input
+                                    label={index === 0 ? "Item Name" : null}
+                                    placeholder="Item Name"
+                                    value={item.name}
+                                    onChange={(e) => handleItemChange(index, 'name', e.target.value)}
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </div>
+
+                            <div style={{ flex: 1 }}>
+                                <Input
+                                    label={index === 0 ? "Qty." : null}
+                                    type="number"
+                                    value={item.quantity}
+                                    onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
+                                    min="1"
+                                    style={{ marginBottom: '8px' }}
+                                    error={errors[`item_${index}_quantity`]}
+                                />
+                            </div>
+
+                            <div style={{ flex: 1 }}>
+                                <Input
+                                    label={index === 0 ? "Price" : null}
+                                    type="number"
+                                    value={item.price}
+                                    onChange={(e) => handleItemChange(index, 'price', e.target.value)}
+                                    step="0.01"
+                                    min="0"
+                                    style={{ marginBottom: '8px' }}
+                                />
+                            </div>
+
+                            <div style={{ flex: 1 }}>
+                                {index === 0 && <label style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text)', marginBottom: '8px', display: 'block' }}>Total</label>}
+                                <div style={{ 
+                                    padding: '12px 16px', 
+                                    color: 'var(--text)', 
+                                    fontWeight: 'bold', 
+                                    display: 'flex', 
+                                    alignItems: 'center',
+                                    height: '42px',
+                                    boxSizing: 'border-box'
+                                }}>
+                                    ${(item.quantity * item.price).toFixed(2)}
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', paddingTop: index === 0 ? '24px' : '0' }}>
+                                <button
+                                    type="button"
+                                    onClick={() => removeItem(index)}
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: formData.items.length === 1 ? 'not-allowed' : 'pointer',
+                                        color: formData.items.length === 1 ? 'var(--border)' : '#EC5757',
+                                        fontSize: '20px',
+                                        padding: '10px'
+                                    }}
+                                    disabled={formData.items.length === 1}
+                                >
+                                    🗑️
+                                </button>
+                            </div>
                         </div>
+                    ))}
 
-                        <div style={{ flex: 1 }}>
-                            <input
-                                type="number"
-                                placeholder="Qty"
-                                value={item.quantity}
-                                onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                                style={styles.input}
-                                min="1"
-                            />
-                            {errors[`item_${index}_quantity`] && (
-                                <span style={styles.errorSmall}>Must be &gt; 0</span>
-                            )}
-                        </div>
+                    {errors.items && (
+                        <span style={{ color: '#EC5757', fontSize: '12px', display: 'block', marginBottom: '16px' }}>{errors.items}</span>
+                    )}
 
-                        <div style={{ flex: 1 }}>
-                            <input
-                                type="number"
-                                placeholder="Price"
-                                value={item.price}
-                                onChange={(e) => handleItemChange(index, 'price', e.target.value)}
-                                style={styles.input}
-                                step="0.01"
-                                min="0"
-                            />
-                        </div>
+                    <Button 
+                        variant="secondary" 
+                        fullWidth 
+                        onClick={addItem}
+                        style={{ marginTop: '16px' }}
+                    >
+                        + Add New Item
+                    </Button>
+                </fieldset>
 
-                        <div style={{ flex: 1, textAlign: 'right' }}>
-                            <span>${(item.quantity * item.price).toFixed(2)}</span>
-                        </div>
+                {/* Form Actions */}
+                <div style={styles.actions}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => navigate('/')}
+                    >
+                        Discard
+                    </Button>
 
-                        <button
-                            type="button"
-                            onClick={() => removeItem(index)}
-                            style={styles.iconButton}
-                            disabled={formData.items.length === 1}
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button
+                            variant="secondary"
+                            onClick={() => handleSubmit('draft')}
+                            style={{ backgroundColor: 'var(--social-bg)', color: 'var(--text)' }}
                         >
-                            🗑️
-                        </button>
+                            Save as Draft
+                        </Button>
+
+                        <Button
+                            variant="primary"
+                            onClick={() => handleSubmit('pending')}
+                        >
+                            Save & Send
+                        </Button>
                     </div>
-                ))}
-
-                {errors.items && (
-                    <span style={styles.error}>{errors.items}</span>
-                )}
-
-                <button type="button" onClick={addItem} style={styles.addButton}>
-                    + Add New Item
-                </button>
-            </fieldset>
-
-            {/* Form Actions */}
-            <div style={styles.actions}>
-                <button
-                    type="button"
-                    onClick={() => navigate('/')}
-                    style={styles.cancelButton}
-                >
-                    Discard
-                </button>
-
-                <div>
-                    <button
-                        type="button"
-                        onClick={() => handleSubmit('draft')}
-                        style={styles.draftButton}
-                    >
-                        Save as Draft
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={() => handleSubmit('pending')}
-                        style={styles.saveButton}
-                    >
-                        Save & Send
-                    </button>
                 </div>
             </div>
         </div>
@@ -359,102 +376,38 @@ const InvoiceForm = () => {
 // Styles object to keep the JSX clean
 const styles = {
     fieldset: {
-        border: '1px solid #DFE3FA',
-        borderRadius: '8px',
-        padding: '20px',
-        marginBottom: '20px',
-        backgroundColor: '#FFFFFF'
+        border: 'none',
+        padding: '0',
+        marginBottom: '40px',
+        marginInline: '0'
+    },
+    legend: {
+        color: 'var(--accent)',
+        fontWeight: 'bold',
+        fontSize: '14px',
+        marginBottom: '16px',
+        padding: '0'
     },
     formGroup: {
-        marginBottom: '15px',
         flex: 1
-    },
-    label: {
-        display: 'block',
-        marginBottom: '5px',
-        fontSize: '14px',
-        color: '#7E88C3'
-    },
-    input: {
-        width: '100%',
-        padding: '10px',
-        border: '1px solid #DFE3FA',
-        borderRadius: '4px',
-        fontSize: '14px',
-        boxSizing: 'border-box'
     },
     row: {
         display: 'flex',
-        gap: '15px'
+        gap: '24px',
+        width: '100%'
     },
     itemRow: {
         display: 'flex',
-        gap: '10px',
+        gap: '16px',
         alignItems: 'flex-start',
-        marginBottom: '15px'
-    },
-    error: {
-        color: '#EC5757',
-        fontSize: '12px',
-        marginTop: '4px',
-        display: 'block'
-    },
-    errorSmall: {
-        color: '#EC5757',
-        fontSize: '10px',
-        display: 'block'
-    },
-    addButton: {
-        width: '100%',
-        padding: '12px',
-        backgroundColor: '#F9FAFE',
-        color: '#7E88C3',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontSize: '14px',
-        fontWeight: 'bold',
-        marginTop: '10px'
+        marginBottom: '16px'
     },
     actions: {
         display: 'flex',
         justifyContent: 'space-between',
-        marginTop: '30px'
-    },
-    cancelButton: {
-        padding: '12px 24px',
-        backgroundColor: '#F9FAFE',
-        color: '#7E88C3',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontWeight: 'bold'
-    },
-    draftButton: {
-        padding: '12px 24px',
-        backgroundColor: '#373B53',
-        color: '#888EB0',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontWeight: 'bold',
-        marginRight: '10px'
-    },
-    saveButton: {
-        padding: '12px 24px',
-        backgroundColor: '#7C5DFA',
-        color: 'white',
-        border: 'none',
-        borderRadius: '20px',
-        cursor: 'pointer',
-        fontWeight: 'bold'
-    },
-    iconButton: {
-        background: 'none',
-        border: 'none',
-        cursor: 'pointer',
-        fontSize: '18px',
-        padding: '10px'
+        marginTop: '40px',
+        paddingTop: '24px',
+        borderTop: '1px solid var(--border)'
     }
 };
 
